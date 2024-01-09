@@ -32,7 +32,7 @@ internal fun DefaultWheelDateTimePicker(
     onSnappedDateTime : (snappedDateTime: SnappedDateTime) -> Int? = { _ -> null }
 ) {
 
-    var snappedDateTime by remember { mutableStateOf(startDateTime.truncatedTo(ChronoUnit.MINUTES)) }
+    var snappedDateTime by remember(startDateTime) { mutableStateOf(startDateTime.truncatedTo(ChronoUnit.MINUTES)) }
 
     val yearTexts = yearsRange?.map { it.toString() } ?: listOf()
 

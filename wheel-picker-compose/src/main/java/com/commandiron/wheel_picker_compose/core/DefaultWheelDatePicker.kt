@@ -30,7 +30,7 @@ internal fun DefaultWheelDatePicker(
     selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
     onSnappedDate : (snappedDate: SnappedDate) -> Int? = { _ -> null }
 ) {
-    var snappedDate by remember { mutableStateOf(startDate) }
+    var snappedDate by remember(startDate) { mutableStateOf(startDate) }
 
     var dayOfMonths = calculateDayOfMonths(snappedDate.month.value, snappedDate.year)
 

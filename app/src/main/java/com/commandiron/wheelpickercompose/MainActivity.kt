@@ -8,20 +8,24 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.commandiron.wheel_picker_compose.WheelDatePicker
-import com.commandiron.wheel_picker_compose.WheelDateTimePicker
 import com.commandiron.wheel_picker_compose.WheelTimePicker
 import com.commandiron.wheel_picker_compose.core.TimeFormat
 import com.commandiron.wheel_picker_compose.core.WheelPickerDefaults
 import com.commandiron.wheelpickercompose.ui.theme.WheelPickerComposeTheme
-import java.time.LocalDateTime
+import java.time.LocalTime
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,24 +40,13 @@ class MainActivity : ComponentActivity() {
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
-                        WheelTimePicker { snappedTime ->
-                            println(snappedTime)
+
+                        var changeableTime: LocalTime by remember {
+                            mutableStateOf(LocalTime.now())
                         }
-                        WheelDatePicker { snappedDate ->
-                            println(snappedDate)
-                        }
-                        WheelDateTimePicker { snappedDateTime ->
-                            println(snappedDateTime)
-                        }
-                        WheelDateTimePicker(
-                            startDateTime = LocalDateTime.of(
-                                2025, 10, 20, 5, 30
-                            ),
-                            minDateTime = LocalDateTime.now(),
-                            maxDateTime = LocalDateTime.of(
-                                2025, 10, 20, 5, 30
-                            ),
-                            timeFormat = TimeFormat.AM_PM,
+                        WheelTimePicker(
+                            startTime = changeableTime,
+                            timeFormat = TimeFormat.HOUR_24,
                             size = DpSize(200.dp, 100.dp),
                             rowCount = 5,
                             textStyle = MaterialTheme.typography.titleSmall,
@@ -65,7 +58,13 @@ class MainActivity : ComponentActivity() {
                                 border = BorderStroke(2.dp, Color(0xFFf1faee))
                             )
                         ){ snappedDateTime ->
-                            println(snappedDateTime)
+                            // updatedTime = snappedDateTime
+                        }
+
+                        Button(onClick = {
+                            changeableTime = LocalTime.now()
+                        }) {
+                            Text(text = "Set time to now")
                         }
                     }
                 }
